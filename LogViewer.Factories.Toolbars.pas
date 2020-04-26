@@ -1,5 +1,5 @@
 {
-  Copyright (C) 2013-2017 Tim Sinaeve tim.sinaeve@gmail.com
+  Copyright (C) 2013-2020 Tim Sinaeve tim.sinaeve@gmail.com
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -15,6 +15,8 @@
 }
 
 unit LogViewer.Factories.Toolbars;
+
+{ Application toolbar factories. }
 
 interface
 
@@ -32,7 +34,7 @@ const
 
 type
   TLogViewerToolbarsFactory = class(TInterfacedObject, ILogViewerToolbarsFactory)
-  strict private
+  private
     FActions : ILogViewerActions;
     FMenus   : ILogViewerMenus;
 
@@ -41,35 +43,39 @@ type
     FEdgeOuter   : TEdgeStyle;
     FTransparant : Boolean;
 
-    procedure ApplyDefaultProperties(
-      AToolbar : TToolbar
-    );
+    procedure ApplyDefaultProperties(AToolbar: TToolbar);
 
     function CreateToolButton(
-       AParent    : TToolBar;
-       AAction    : TBasicAction = nil;
-       AStyle     : TToolButtonStyle = tbsButton;
-       APopupMenu : TPopupMenu = nil
+      AParent    : TToolBar;
+      AAction    : TBasicAction = nil;
+      AStyle     : TToolButtonStyle = tbsButton;
+      APopupMenu : TPopupMenu = nil
     ): TToolButton; overload;
 
     function CreateToolButton(
-            AParent     : TToolBar;
+      AParent           : TToolBar;
       const AActionName : string;
-            AStyle      : TToolButtonStyle = tbsButton;
-            APopupMenu  : TPopupMenu = nil
+      AStyle            : TToolButtonStyle = tbsButton;
+      APopupMenu        : TPopupMenu = nil
     ): TToolButton; overload;
+
+    class procedure OnDropdownMenuButtonClick(Sender: TObject);
 
   public
     procedure AfterConstruction; override;
-
     constructor Create(
-      AActions  : ILogViewerActions;
-      AMenus    : ILogViewerMenus
+      AActions : ILogViewerActions;
+      AMenus   : ILogViewerMenus
     );
 
     function CreateMainToolbar(
-        AOwner  : TComponent;
-        AParent : TWinControl
+      AOwner  : TComponent;
+      AParent : TWinControl
+    ): TToolbar;
+
+    function CreateRightTopToolbar(
+      AOwner  : TComponent;
+      AParent : TWinControl
     ): TToolbar;
 
     property EdgeBorders: TEdgeBorders
@@ -135,6 +141,11 @@ begin
       CreateToolButton(AParent, FActions[AActionName], AStyle, APopupMenu);
 end;
 
+class procedure TLogViewerToolbarsFactory.OnDropdownMenuButtonClick(Sender: TObject);
+begin
+  (Sender as TToolButton).CheckMenuDropdown;
+end;
+
 function TLogViewerToolbarsFactory.CreateToolButton(AParent: TToolBar;
   AAction: TBasicAction; AStyle: TToolButtonStyle; APopupMenu: TPopupMenu)
   : TToolButton;
@@ -161,6 +172,7 @@ begin
     begin
       TB.Style        := tbsDropDown;
       TB.DropdownMenu := APopupMenu;
+      TB.OnClick      := OnDropdownMenuButtonClick;
     end;
     TB.Action := AAction;
   end;
@@ -179,46 +191,46 @@ begin
   Guard.CheckNotNull(AParent, 'AParent');
   TB := TToolBar.Create(AOwner);
   ApplyDefaultProperties(TB);
-  TB.Parent := AParent;
-  TB.Images := FActions.ActionList.Images;
-  TB.ButtonWidth:= 10;
+  TB.Parent           := AParent;
+  TB.Images           := FActions.ActionList.Images;
+  TB.ButtonWidth      := 10;
   TB.AllowTextButtons := True;
-  CreateToolButton(TB, 'actToggleAlwaysOnTop');
-  CreateToolButton(TB, 'actToggleFullScreen');
-  CreateToolButton(TB, 'actStop');
-  CreateToolButton(TB, 'actClearMessages');
+  CreateToolButton(TB, 'actDashboard', tbsTextButton);
   CreateToolButton(TB);
-  CreateToolButton(TB, 'actInfo', tbsTextButton);
-  CreateToolButton(TB, 'actWarning', tbsTextButton);
-  CreateToolButton(TB, 'actError', tbsTextButton);
-  CreateToolButton(TB, 'actEcxeption', tbsTextButton);
+  CreateToolButton(TB, 'actStart', tbsTextButton);
+  CreateToolButton(TB, 'actStop', tbsTextButton);
   CreateToolButton(TB);
-  //CreateToolButton(TB, 'actConditional', tbsTextButton);
-  CreateToolButton(TB, 'actCheckPoint', tbsTextButton);
-  //CreateToolButton(TB, 'actCallStack', tbsTextButton);
+  CreateToolButton(TB, 'actSettings', tbsTextButton);
   CreateToolButton(TB);
-  CreateToolButton(TB, 'actValue', tbsTextButton);
-  CreateToolButton(TB, 'actStrings', tbsTextButton);
-  CreateToolButton(TB, 'actObject', tbsTextButton);
-//  CreateToolButton(TB, 'actBitmap', tbsTextButton);
-  //CreateToolButton(TB, 'actMemory', tbsTextButton);
-  //CreateToolButton(TB, 'actHeapInfo', tbsTextButton);
-  CreateToolButton(TB, 'actCustomData', tbsTextButton);
-//  CreateToolButton(TB);
-  CreateToolButton(TB, 'actMethodTraces', tbsTextButton);
-//  CreateToolButton(TB);
-//  CreateToolButton(TB, 'actFilterMessages');
-//  CreateToolButton(TB);
-//  CreateToolButton(TB, 'actZeroMQChannel');
-//  CreateToolButton(TB, 'actWinIPCChannel');
-//  CreateToolButton(TB, 'actODSChannel');
-//  CreateToolButton(TB);
-//  CreateToolButton(TB, 'actSetFocusToFilter');
-//  CreateToolButton(TB);
+  CreateToolButton(TB, 'actShowFilterView', tbsTextButton);
+  CreateToolButton(TB, 'actClearMessages', tbsTextButton);
+  CreateToolButton(TB);
+  CreateToolButton(TB, 'actCloseTerminatedProcesses', tbsTextButton);
+  CreateToolButton(TB);
   CreateToolButton(TB, 'actCollapseAll', tbsTextButton);
   CreateToolButton(TB, 'actExpandAll', tbsTextButton);
-  CreateToolButton(TB);
   CreateToolButton(TB, 'actAutoScrollMessages', tbsTextButton);
+  CreateToolButton(TB, 'actToggleLeftPanelVisible', tbsTextButton);
+  CreateToolButton(TB, 'actToggleRightPanelVisible', tbsTextButton);
+  Result := TB;
+end;
+
+function TLogViewerToolbarsFactory.CreateRightTopToolbar(AOwner: TComponent;
+  AParent: TWinControl): TToolbar;
+var
+  TB : TToolbar;
+begin
+  Guard.CheckNotNull(AOwner, 'AOwner');
+  Guard.CheckNotNull(AParent, 'AParent');
+  TB := TToolBar.Create(AOwner);
+  ApplyDefaultProperties(TB);
+  TB.Parent           := AParent;
+  TB.Images           := FActions.ActionList.Images;
+  TB.ButtonWidth      := 10;
+  TB.AllowTextButtons := True;
+  CreateToolButton(TB, 'actAbout');
+  CreateToolButton(TB);
+  CreateToolButton(TB, 'actToggleAlwaysOnTop');
   Result := TB;
 end;
 {$ENDREGION}

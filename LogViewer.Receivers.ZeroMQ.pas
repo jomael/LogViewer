@@ -1,5 +1,5 @@
 {
-  Copyright (C) 2013-2017 Tim Sinaeve tim.sinaeve@gmail.com
+  Copyright (C) 2013-2020 Tim Sinaeve tim.sinaeve@gmail.com
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,17 +16,9 @@
 
 unit LogViewer.Receivers.ZeroMQ;
 
+{ ZeroMQ channel receiver. }
+
 interface
-
-{ Receives logmessages from one or more ZMQ publisher through a subscriber
-  socket.
-
-  A ZeroMQChannelReceiver can receive messages from multiple channels that are
-  bound to one or more ZMQ publisher sockets.
-
-  TODO:
-    - list of connectionstrings to subscribe to?
-}
 
 uses
   System.Classes,
@@ -36,171 +28,117 @@ uses
 
   ZeroMQ,
 
-  LogViewer.Interfaces;
+  LogViewer.Interfaces,  LogViewer.Receivers.Base,
+  LogViewer.Receivers.ZeroMQ.Settings;
+
+{$REGION 'documentation'}
+{ Receives logmessages from one or more ZMQ publisher through a subscriber
+  socket.
+
+  A ZeroMQChannelReceiver can receive messages from multiple channels that are
+  bound to one or more ZMQ publisher sockets.
+
+  In this setup the source application (sender of log messages) acts as a server
+  which binds to a ZeroMQ socket (publisher).
+  Multiple subscribers (TZeroMQChannelReceiver instances) can connect to the
+  same publisher.
+
+  REMARKS:
+    - communication with ZeroMQ sockets is asynchronious. So the source
+      application is never blocked as all messages are queued.
+    - when the receiver cannot keep up with the publisher, messages are thrown
+      away by the ZeroMQ subscriber.
+
+  TODO:
+    - list of connectionstrings to subscribe to?
+}
+{$ENDREGION}
 
 type
-  TZeroMQChannelReceiver = class(TInterfacedObject, IChannelReceiver)
-  private class var
-     FCounter : Integer;
+  TZeroMQChannelReceiver = class(TChannelReceiver, IChannelReceiver, IZmq)
   private
-    FOnReceiveMessage : Event<TReceiveMessageEvent>;
-    FZMQStream        : TStringStream;
-    FZMQ              : IZeroMQ;
-    FSubscriber       : IZMQPair;
-    FPoll             : IZMQPoll;
-    FTimer            : TTimer;
-    FEnabled          : Boolean;
-    FName             : string;
-
-    function GetEnabled: Boolean;
-    procedure SetEnabled(const Value: Boolean);
-
-    function ConnectSubscriber: Boolean;
-    procedure CloseSubscriber;
-    function GetOnReceiveMessage: IEvent<TReceiveMessageEvent>;
-    function GetName: string;
-    procedure SetName(const Value: string);
+    FZmq : IZeroMQ;
 
   protected
-    procedure DoReceiveMessage(AStream : TStream);
+    {$REGION 'property access methods'}
+    function GetSettings: TZeroMQSettings;
+    procedure SetEnabled(const Value: Boolean); override;
+    {$ENDREGION}
 
-    procedure FTimerTimer(Sender: TObject);
+    procedure SettingsChanged(Sender: TObject);
 
   public
-    constructor Create(const AName: string);
     procedure AfterConstruction; override;
-    procedure BeforeDestruction; override;
 
-    property Enabled: Boolean
-      read GetEnabled write SetEnabled;
+    constructor Create(
+      AManager    : ILogViewerManager;
+      AZmq        : IZeroMQ;
+      const AName : string
+    ); reintroduce;
+    destructor Destroy; override;
 
-    property Name: string
-      read GetName write SetName;
-
-    property OnReceiveMessage: IEvent<TReceiveMessageEvent>
-      read GetOnReceiveMessage;
+    property Settings: TZeroMQSettings
+      read GetSettings;
   end;
 
 implementation
 
 uses
-  System.SysUtils;
+  System.SysUtils,
+  Vcl.Forms;
 
 {$REGION 'construction and destruction'}
-constructor TZeroMQChannelReceiver.Create(const AName: string);
-begin
-  inherited Create;
-  if AName = '' then
-  begin
-    FName := Copy(ClassName, 2, Length(ClassName)) + IntToStr(FCounter);
-  end
-  else
-    FName := AName;
-end;
-
 procedure TZeroMQChannelReceiver.AfterConstruction;
 begin
-  Inc(FCounter);
-  FTimer := TTimer.Create(nil);
-  FTimer.OnTimer := FTimerTimer;
-  FZMQ     := TZeroMQ.Create;
-  FEnabled := ConnectSubscriber;
-
   inherited AfterConstruction;
+  PollTimer.OnTimer  := PollTimerTimer;
+  PollTimer.Interval := Settings.PollingInterval;
+  Settings.OnChanged.Add(SettingsChanged);
 end;
 
-procedure TZeroMQChannelReceiver.BeforeDestruction;
+constructor TZeroMQChannelReceiver.Create(AManager: ILogViewerManager; AZmq:
+  IZeroMQ; const AName: string);
 begin
-  CloseSubscriber;
-  FTimer.Free;
-  inherited BeforeDestruction;
+  inherited Create(AManager, AName);
+  FZmq := AZmq;
+end;
+
+destructor TZeroMQChannelReceiver.Destroy;
+begin
+  PollTimer.Enabled := False;
+  Settings.OnChanged.RemoveAll(Self);
+  FZmq := nil;
+  inherited Destroy;
 end;
 {$ENDREGION}
 
 {$REGION 'property access methods'}
-function TZeroMQChannelReceiver.GetEnabled: Boolean;
-begin
-  Result := FEnabled;
-end;
-
-function TZeroMQChannelReceiver.GetName: string;
-begin
-  Result := FName;
-end;
-
-procedure TZeroMQChannelReceiver.SetName(const Value: string);
-begin
-  FName := Value;
-end;
-
 procedure TZeroMQChannelReceiver.SetEnabled(const Value: Boolean);
 begin
-  if Value <> Enabled then
-  begin
-    FEnabled := Value;
-    if Value then
-      FEnabled := ConnectSubscriber
-    else
-      CloseSubscriber;
-    FTimer.Enabled := FEnabled;
-  end;
+  inherited SetEnabled(Value);
+  PollTimer.Enabled := Value;
 end;
 
-function TZeroMQChannelReceiver.GetOnReceiveMessage: IEvent<TReceiveMessageEvent>;
+function TZeroMQChannelReceiver.GetSettings: TZeroMQSettings;
 begin
-  Result := FOnReceiveMessage;
-end;
-{$ENDREGION}
-
-{$REGION 'event dispatch methods'}
-procedure TZeroMQChannelReceiver.DoReceiveMessage(AStream: TStream);
-begin
-//
+  Result := Manager.Settings.ZeroMQSettings;
 end;
 {$ENDREGION}
 
 {$REGION 'event handlers'}
-procedure TZeroMQChannelReceiver.FTimerTimer(Sender: TObject);
+procedure TZeroMQChannelReceiver.SettingsChanged(Sender: TObject);
+var
+  LSubscriber : ISubscriber;
 begin
-  if Assigned(FPoll) then
+  Enabled            := Settings.Enabled;
+  PollTimer.Interval := Settings.PollingInterval;
+  for LSubscriber in SubscriberList.Values do
   begin
-    while FPoll.PollOnce(50) > 0 do
-      FPoll.FireEvents;
+    (LSubscriber as ILogMessageSubscriptionFilter).LogMessageTypes :=
+      Settings.LogMessageTypes;
+    (LSubscriber as ILogMessageSubscriptionFilter).LogMessageLevels :=
+      Settings.LogMessageLevels;
   end;
-end;
-{$ENDREGION}
-
-{$REGION 'private methods'}
-procedure TZeroMQChannelReceiver.CloseSubscriber;
-begin
-  if Assigned(FSubscriber) then
-  begin
-    FSubscriber.Close;
-    FSubscriber := nil;
-    FPoll       := nil;
-  end;
-end;
-
-function TZeroMQChannelReceiver.ConnectSubscriber: Boolean;
-//var
-//  N : Integer;
-begin
-  FSubscriber := FZMQ.Start(ZMQSocket.Subscriber);
-//  N := FSubscriber.Connect('tcp://GANYMEDES:5555');
-//  N := FSubscriber.Connect('tcp://localhost:5555');
-  //N := FSubscriber.Connect('tcp://EUROPA:5555');
-
-  FSubscriber.Subscribe(''); // required!!
-  FPoll := FZMQ.Poller;
-  FPoll.RegisterPair(FSubscriber, [PollEvent.PollIn],
-    procedure(Event: PollEvents)
-    begin
-      FZMQStream.WriteString(FSubscriber.ReceiveString);
-      DoReceiveMessage(FZMQStream);
-      FZMQStream.Clear;
-    end
-  );
-  Result := True;
 end;
 {$ENDREGION}
 

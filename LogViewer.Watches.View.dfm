@@ -1,42 +1,57 @@
 object frmWatchesView: TfrmWatchesView
   Left = 0
   Top = 0
-  ClientHeight = 581
-  ClientWidth = 402
+  ClientHeight = 739
+  ClientWidth = 444
   Color = clWhite
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
-  Font.Style = []
+  ParentFont = True
   OldCreateOrder = False
+  ShowHint = True
   PixelsPerInch = 96
   TextHeight = 13
-  object splHorizontal: TSplitter
-    Left = 0
-    Top = 314
-    Width = 402
-    Height = 10
-    Cursor = crVSplit
-    Align = alBottom
-    ExplicitTop = 319
-  end
-  object pnlWatches: TPanel
+  object pnlMain: TOMultiPanel
     Left = 0
     Top = 0
-    Width = 402
-    Height = 314
+    Width = 444
+    Height = 739
+    PanelType = ptVertical
+    PanelCollection = <
+      item
+        Control = pnlWatches
+        Position = 0.500000000000000000
+        Visible = True
+        Index = 0
+      end
+      item
+        Control = pnlWatchHistory
+        Position = 1.000000000000000000
+        Visible = False
+        Index = 1
+      end>
+    MinPosition = 0.020000000000000000
+    SplitterColor = clScrollBar
+    SplitterHoverColor = clScrollBar
     Align = alClient
-    BevelOuter = bvNone
+    BevelEdges = []
     TabOrder = 0
-  end
-  object pnlWatchHistory: TPanel
-    Left = 0
-    Top = 324
-    Width = 402
-    Height = 257
-    Align = alBottom
-    BevelOuter = bvNone
-    TabOrder = 1
+    object pnlWatches: TPanel
+      Left = 0
+      Top = 0
+      Width = 444
+      Height = 370
+      Align = alTop
+      BevelOuter = bvNone
+      TabOrder = 0
+    end
+    object pnlWatchHistory: TPanel
+      Left = 0
+      Top = 373
+      Width = 444
+      Height = 366
+      Align = alBottom
+      BevelOuter = bvNone
+      TabOrder = 1
+      Visible = False
+    end
   end
 end

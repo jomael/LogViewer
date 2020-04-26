@@ -1,5 +1,5 @@
 {
-  Copyright (C) 2013-2017 Tim Sinaeve tim.sinaeve@gmail.com
+  Copyright (C) 2013-2020 Tim Sinaeve tim.sinaeve@gmail.com
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 
 unit LogViewer.CallStack.View;
 
-interface
+{ Callstack viewer. }
 
-{ TVirtualStringTree - TTreeViewPresenter combination to display the callstack }
+interface
 
 uses
   Winapi.Windows, Winapi.Messages,
@@ -30,30 +30,64 @@ uses
   Spring.Collections,
 
   DSharp.Windows.TreeViewPresenter, DSharp.Windows.ColumnDefinitions,
-  DSharp.Core.DataTemplates,
 
-  LogViewer.CallStack.Data;
+  LogViewer.DisplayValues.Settings, LogViewer.CallStack.Settings;
 
 type
   TfrmCallStackView = class(TForm)
   private
-    FTVPCallStack : TTreeViewPresenter;
-    FVSTCallStack : TVirtualStringTree;
-    FCallStack    : IObjectList;
+    FTVPCallStack          : TTreeViewPresenter;
+    FVSTCallStack          : TVirtualStringTree;
+    FCallStack             : IObjectList;
+    FDisplayValuesSettings : TDisplayValuesSettings;
+    FSettings              : TCallStackSettings;
 
     procedure FCallStackChanged(
       Sender     : TObject;
       const Item : TObject;
       Action     : TCollectionChangedAction
     );
+    function FCDLevelCustomDraw(
+      Sender           : TObject;
+      ColumnDefinition : TColumnDefinition;
+      Item             : TObject;
+      TargetCanvas     : TCanvas;
+      CellRect         : TRect;
+      ImageList        : TCustomImageList;
+      DrawMode         : TDrawMode;
+      Selected         : Boolean
+    ): Boolean;
+    function FCDTitleCustomDraw(
+      Sender           : TObject;
+      ColumnDefinition : TColumnDefinition;
+      Item             : TObject;
+      TargetCanvas     : TCanvas;
+      CellRect         : TRect;
+      ImageList        : TCustomImageList;
+      DrawMode         : TDrawMode;
+      Selected         : Boolean
+    ): Boolean;
+    function FCDDurationCustomDraw(
+      Sender                 : TObject;
+      ColumnDefinition : TColumnDefinition;
+      Item             : TObject;
+      TargetCanvas     : TCanvas;
+      CellRect         : TRect;
+      ImageList        : TCustomImageList;
+      DrawMode         : TDrawMode;
+      Selected         : Boolean
+    ): Boolean;
+    procedure SettingsChanged(Sender: TObject);
+    procedure FTVPCallStackDoubleClick(Sender: TObject);
 
   public
     constructor Create(
-      AOwner : TComponent;
-      AData  : IObjectList
+      AOwner                 : TComponent;
+      AData                  : IObjectList;
+      ASettings              : TCallStackSettings;
+      ADisplayValuesSettings : TDisplayValuesSettings
     ); reintroduce; virtual;
-    procedure BeforeDestruction; override;
-
+    destructor Destroy; override;
   end;
 
 implementation
@@ -61,28 +95,71 @@ implementation
 {$R *.dfm}
 
 uses
-  DDuce.Factories, DDuce.Factories.VirtualTrees;
+  Spring,
+
+  DSharp.Windows.ControlTemplates,
+
+  DDuce.Factories.TreeViewPresenter, DDuce.Factories.VirtualTrees,
+  DDuce.Logger,
+
+  LogViewer.CallStack.Data, LogViewer.Interfaces;
 
 {$REGION 'construction and destruction'}
-constructor TfrmCallStackView.Create(AOwner: TComponent; AData: IObjectList);
+constructor TfrmCallStackView.Create(AOwner: TComponent; AData: IObjectList;
+  ASettings: TCallStackSettings; ADisplayValuesSettings: TDisplayValuesSettings);
+var
+  CDS : IColumnDefinitions;
+  CD  : TColumnDefinition;
 begin
   inherited Create(AOwner);
+  Guard.CheckNotNull(AData, 'AData');
+  Guard.CheckNotNull(ASettings, 'ASettings');
+  Guard.CheckNotNull(ADisplayValuesSettings, 'ADisplayValuesSettings');
+  FDisplayValuesSettings := ADisplayValuesSettings;
+  FSettings              := ASettings;
+  FSettings.OnChanged.Add(SettingsChanged);
   FCallStack := AData;
   FCallStack.OnChanged.Add(FCallStackChanged);
-  FVSTCallStack := TVirtualStringTreeFactory.CreateGrid(Self, Self);
+  FVSTCallStack := TVirtualStringTreeFactory.CreateList(Self, Self);
+  FVSTCallStack.AlignWithMargins := False;
+  CDS                  := TFactories.CreateColumnDefinitions;
+  CD                   := CDS.Add('');
+  CD.ValuePropertyName := 'Level';
+  CD.HintPropertyName  := CD.ValuePropertyName;
+  CD.OnCustomDraw      := FCDLevelCustomDraw;
+  CD.Width             := 10;
+  CD.AutoSize          := True;
+  CD                   := CDS.Add('Name');
+  CD.ValuePropertyName := 'Title';
+  CD.HintPropertyName  := CD.ValuePropertyName;
+  CD.OnCustomDraw      := FCDTitleCustomDraw;
+  CD.AutoSize          := True;
+  CD                   := CDS.Add('Duration');
+  CD.ValuePropertyName := 'Duration';
+  CD.HintPropertyName  := CD.ValuePropertyName;
+  CD.OnCustomDraw      := FCDDurationCustomDraw;
+  CD.Width             := 60;
+  CD.MinWidth          := 60;
+  CD.Alignment         := taRightJustify;
+  CD.AutoSize          := False;
+  FVSTCallStack.Header.AutoSizeIndex := 1;
   FTVPCallStack := TFactories.CreateTreeViewPresenter(
     Self,
     FVSTCallStack,
-    FCallStack as IObjectList
+    FCallStack as IObjectList,
+    CDS
   );
-  FTVPCallStack.ShowHeader := False;
+  FTVPCallStack.ShowHeader    := FSettings.ColumnHeadersVisible;
+  FTVPCallStack.OnDoubleClick := FTVPCallStackDoubleClick;
 end;
 
-procedure TfrmCallStackView.BeforeDestruction;
+destructor TfrmCallStackView.Destroy;
 begin
-  FCallStack.OnChanged.Remove(FCallStackChanged);
+  Logger.Track(Self, 'Destroy');
+  FCallStack.OnChanged.RemoveAll(Self);
   FCallStack := nil;
-  inherited BeforeDestruction;
+  FDisplayValuesSettings := nil;
+  inherited Destroy;
 end;
 {$ENDREGION}
 
@@ -92,6 +169,87 @@ procedure TfrmCallStackView.FCallStackChanged(Sender: TObject;
 begin
   FTVPCallStack.Refresh;
   FTVPCallStack.TreeView.Header.AutoFitColumns;
+end;
+
+function TfrmCallStackView.FCDDurationCustomDraw(Sender: TObject;
+  ColumnDefinition: TColumnDefinition; Item: TObject; TargetCanvas: TCanvas;
+  CellRect: TRect; ImageList: TCustomImageList; DrawMode: TDrawMode;
+  Selected: Boolean): Boolean;
+begin
+  if DrawMode = dmBeforeCellPaint then
+  begin
+    FDisplayValuesSettings.Tracing.AssignTo(TargetCanvas);
+    if not Selected then
+    begin
+      TargetCanvas.Brush.Color := FDisplayValuesSettings.Tracing.BackgroundColor;
+      TargetCanvas.FillRect(CellRect);
+    end;
+  end;
+  if DrawMode = dmPaintText then
+  begin
+    FDisplayValuesSettings.TimeStamp.AssignTo(TargetCanvas.Font);
+  end;
+  Result := True;
+end;
+
+function TfrmCallStackView.FCDLevelCustomDraw(Sender: TObject;
+  ColumnDefinition: TColumnDefinition; Item: TObject; TargetCanvas: TCanvas;
+  CellRect: TRect; ImageList: TCustomImageList; DrawMode: TDrawMode;
+  Selected: Boolean): Boolean;
+begin
+  if DrawMode = dmBeforeCellPaint then
+  begin
+    FDisplayValuesSettings.Tracing.AssignTo(TargetCanvas);
+    if not Selected then
+    begin
+      TargetCanvas.Brush.Color := FDisplayValuesSettings.Tracing.BackgroundColor;
+      TargetCanvas.FillRect(CellRect);
+    end;
+  end;
+  if DrawMode = dmPaintText then
+  begin
+    FDisplayValuesSettings.Id.AssignTo(TargetCanvas.Font);
+  end;
+  Result := True;
+end;
+
+function TfrmCallStackView.FCDTitleCustomDraw(Sender: TObject;
+  ColumnDefinition: TColumnDefinition; Item: TObject; TargetCanvas: TCanvas;
+  CellRect: TRect; ImageList: TCustomImageList; DrawMode: TDrawMode;
+  Selected: Boolean): Boolean;
+begin
+  if DrawMode = dmBeforeCellPaint then
+  begin
+    FDisplayValuesSettings.Tracing.AssignTo(TargetCanvas);
+    if not Selected then
+    begin
+      TargetCanvas.Brush.Color := FDisplayValuesSettings.Tracing.BackgroundColor;
+      TargetCanvas.FillRect(CellRect);
+    end;
+  end;
+  if DrawMode = dmPaintText then
+  begin
+    FDisplayValuesSettings.Tracing.AssignTo(TargetCanvas.Font);
+  end;
+  Result := True;
+end;
+
+procedure TfrmCallStackView.FTVPCallStackDoubleClick(Sender: TObject);
+var
+  LV : ILogViewer;
+begin
+  if Supports(Owner, ILogViewer, LV) then
+  begin
+    if Assigned(FTVPCallStack.SelectedItem) then
+    begin
+      LV.SelectedLogNode := (FTVPCallStack.SelectedItem as TCallStackData).Node1;
+    end;
+  end
+end;
+
+procedure TfrmCallStackView.SettingsChanged(Sender: TObject);
+begin
+  FTVPCallStack.ShowHeader := FSettings.ColumnHeadersVisible;
 end;
 {$ENDREGION}
 

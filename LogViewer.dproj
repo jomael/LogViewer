@@ -1,13 +1,13 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{E31DD9B1-0167-4422-9ACA-2FA2E559BFF4}</ProjectGuid>
+        <ProjectGuid>{912C10C4-BCCE-431B-BD0C-9E42B4F09921}</ProjectGuid>
         <MainSource>LogViewer.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <TargetedPlatforms>3</TargetedPlatforms>
+        <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
-        <ProjectVersion>18.2</ProjectVersion>
+        <ProjectVersion>18.8</ProjectVersion>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -34,21 +34,9 @@
         <Cfg_1>true</Cfg_1>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win64)'!=''">
-        <Cfg_1_Win64>true</Cfg_1_Win64>
-        <CfgParent>Cfg_1</CfgParent>
-        <Cfg_1>true</Cfg_1>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
         <Cfg_2>true</Cfg_2>
         <CfgParent>Base</CfgParent>
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='iOSDevice64' and '$(Cfg_2)'=='true') or '$(Cfg_2_iOSDevice64)'!=''">
-        <Cfg_2_iOSDevice64>true</Cfg_2_iOSDevice64>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
@@ -57,354 +45,194 @@
         <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
-        <Cfg_2_Win64>true</Cfg_2_Win64>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <DCC_DcuOutput>.\Library\$(Platform)\$(Config)</DCC_DcuOutput>
-        <DCC_BplOutput>.\Library\$(Platform)\$(Config)</DCC_BplOutput>
-        <DCC_ExeOutput>.\Library\$(Platform)\$(Config)\</DCC_ExeOutput>
-        <DCC_ImageBase>00400000</DCC_ImageBase>
-        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
-        <DCC_F>false</DCC_F>
-        <DCC_S>false</DCC_S>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_K>false</DCC_K>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=;CFBundleName=</VerInfo_Keys>
         <DCC_E>false</DCC_E>
+        <DCC_F>false</DCC_F>
+        <DCC_K>false</DCC_K>
         <DCC_N>false</DCC_N>
+        <DCC_S>false</DCC_S>
+        <DCC_ImageBase>00400000</DCC_ImageBase>
         <SanitizedProjectName>LogViewer</SanitizedProjectName>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;BCEditor;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=Tim Sinaeve;FileDescription=LogViewer;FileVersion=1.9.1.336;ProductName=LogViewer;ProductVersion=1.9.1;LegalCopyright=2013 - 2020 (c) Tim Sinaeve;OriginalFilename=LogViewer.exe</VerInfo_Keys>
+        <DCC_ExeOutput>.\Bin\$(Platform)</DCC_ExeOutput>
+        <DCC_DcuOutput>.\Lib\$(Platform)\$(Config)</DCC_DcuOutput>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Debug>true</VerInfo_Debug>
+        <VerInfo_MinorVer>9</VerInfo_MinorVer>
+        <VerInfo_Build>336</VerInfo_Build>
+        <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
+        <VerInfo_Release>1</VerInfo_Release>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <VerInfo_Build>1</VerInfo_Build>
-        <VerInfo_MinorVer>1</VerInfo_MinorVer>
-        <VerInfo_MajorVer>0</VerInfo_MajorVer>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Keys>CompanyName=Tim Sinaeve;FileVersion=0.1.0.1;LegalCopyright=Tim Sinaeve (c);OriginalFilename=LogViewer.exe;ProductName=LogViewer;ProductVersion=0.1.0.0;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
+        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_Keys>CompanyName=Tim Sinaeve;FileDescription=LogViewer;FileVersion=1.9.1.336;ProductName=LogViewer;ProductVersion=1.9.1;ProgramID=com.embarcadero.$(MSBuildProjectName);LegalCopyright=2013 - 2020 (c) Tim Sinaeve;OriginalFilename=LogViewer.exe</VerInfo_Keys>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
-        <Icon_MainIcon>LogViewer_Icon.ico</Icon_MainIcon>
+        <Icon_MainIcon>LogViewer_Icon2.ico</Icon_MainIcon>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
+        <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <VerInfo_MajorVer>0</VerInfo_MajorVer>
-        <VerInfo_MinorVer>1</VerInfo_MinorVer>
-        <VerInfo_Build>1</VerInfo_Build>
-        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Keys>CompanyName=Tim Sinaeve;FileVersion=0.1.0.1;LegalCopyright=Tim Sinaeve (c);OriginalFilename=LogViewer.exe;ProductName=LogViewer;ProductVersion=0.1.0.0;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <Icon_MainIcon>LogViewer_Icon.ico</Icon_MainIcon>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <Icon_MainIcon>LogViewer_Icon2.ico</Icon_MainIcon>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
-        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
-        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
         <DCC_DebugInformation>0</DCC_DebugInformation>
+        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <VerInfo_MajorVer>0</VerInfo_MajorVer>
-        <VerInfo_MinorVer>1</VerInfo_MinorVer>
-        <VerInfo_Build>1</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=Tim Sinaeve;FileVersion=0.1.0.1;LegalCopyright=Tim Sinaeve (c);OriginalFilename=LogViewer.exe;ProductName=LogViewer;ProductVersion=0.1.0.0;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <AppEnableHighDPI>true</AppEnableHighDPI>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <VerInfo_MajorVer>0</VerInfo_MajorVer>
-        <VerInfo_MinorVer>1</VerInfo_MinorVer>
-        <VerInfo_Build>1</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=Tim Sinaeve;FileVersion=0.1.0.1;LegalCopyright=Tim Sinaeve (c);OriginalFilename=LogViewer.exe;ProductName=LogViewer;ProductVersion=0.1.0.0;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
-        <AppEnableHighDPI>true</AppEnableHighDPI>
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <VerInfo_Keys>CompanyName=Tim Sinaeve;FileDescription=LogViewer;FileVersion=1.9.1.336;ProductName=LogViewer;ProductVersion=1.9.1;ProgramID=com.embarcadero.$(MSBuildProjectName);LegalCopyright=2013 - 2020 (c) Tim Sinaeve;OriginalFilename=LogViewer.exe</VerInfo_Keys>
+        <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
-        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
         <DCC_Optimize>false</DCC_Optimize>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_iOSDevice64)'!=''">
-        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_Keys>CompanyName=Tim Sinaeve;FileDescription=LogViewer;FileVersion=1.9.1.336;ProductName=LogViewer;ProductVersion=1.9.1;LegalCopyright=2013 - 2020 (c) Tim Sinaeve;OriginalFilename=LogViewer.exe</VerInfo_Keys>
+        <VerInfo_MinorVer>9</VerInfo_MinorVer>
+        <VerInfo_Release>1</VerInfo_Release>
+        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+        <VerInfo_Build>336</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <VerInfo_Build>1</VerInfo_Build>
-        <VerInfo_MinorVer>1</VerInfo_MinorVer>
-        <VerInfo_MajorVer>0</VerInfo_MajorVer>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <AppEnableHighDPI>true</AppEnableHighDPI>
-        <VerInfo_Keys>CompanyName=Tim Sinaeve;FileVersion=0.1.0.1;LegalCopyright=Tim Sinaeve (c);OriginalFilename=LogViewer.exe;ProductName=LogViewer;ProductVersion=0.1.0.0;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
-        <BT_BuildType>Debug</BT_BuildType>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <VerInfo_MinorVer>1</VerInfo_MinorVer>
-        <VerInfo_Build>1</VerInfo_Build>
-        <VerInfo_MajorVer>0</VerInfo_MajorVer>
-        <AppEnableHighDPI>true</AppEnableHighDPI>
-        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <VerInfo_Keys>CompanyName=Tim Sinaeve;FileVersion=0.1.0.1;LegalCopyright=Tim Sinaeve (c);OriginalFilename=LogViewer.exe;ProductName=LogViewer;ProductVersion=0.1.0.0;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
-        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_Keys>CompanyName=Tim Sinaeve;FileDescription=LogViewer;FileVersion=1.9.1.337;ProductName=LogViewer;ProductVersion=1.9.1;ProgramID=com.embarcadero.$(MSBuildProjectName);LegalCopyright=2013 - 2020 (c) Tim Sinaeve;OriginalFilename=LogViewer.exe</VerInfo_Keys>
+        <DCC_IntegerOverflowCheck>true</DCC_IntegerOverflowCheck>
+        <DCC_RangeChecking>true</DCC_RangeChecking>
+        <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+        <DCC_RemoteDebug>true</DCC_RemoteDebug>
+        <DCC_MapFile>3</DCC_MapFile>
+        <DCC_DebugDCUs>true</DCC_DebugDCUs>
+        <DCC_OutputDependencies>true</DCC_OutputDependencies>
+        <DCC_RunTimeTypeInfo>true</DCC_RunTimeTypeInfo>
+        <DCC_DebugInfoInTds>true</DCC_DebugInfoInTds>
+        <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
+        <VerInfo_Build>337</VerInfo_Build>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\DDuce.Factories.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\DDuce.FormSettings.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.ActionList.Templates.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.ActionList.ToolView.pas">
-            <Form>frmActionListView</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.AlignLines.Settings.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.AlignLines.ToolView.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.CharacterMap.ToolView.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Codeformatters.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Codeformatters.Sql.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Codetags.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Colors.Settings.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Commands.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Commentstripper.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Events.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Factories.Manager.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Factories.Menus.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Factories.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Factories.Settings.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Factories.Toolbars.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Factories.Views.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Filter.Toolview.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Highlighters.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Interfaces.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Manager.pas">
-            <Form>dmEditorManager</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Options.Settings.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Resources.pas">
-            <Form>ResourcesDataModule</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TDataModule</DesignClass>
-        </DCCReference>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Search.Data.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Search.Engine.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Search.Engine.Settings.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Search.Templates.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Search.Toolview.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Selectioninfo.ToolView.pas">
-            <Form>frmSelectionInfo</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Settings.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Sortstrings.Settings.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Sortstrings.Toolview.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Test.ToolView.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Tools.Settings.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.ToolView.Base.pas">
-            <Form>CustomEditorToolView</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.ToolView.Manager.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Types.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Utils.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.View.pas">
-            <Form>EditorView</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Viewlist.Data.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Viewlist.ToolView.pas">
-            <Form>frmViewList</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="..\..\libraries\dduce\Source\DDuce.DynamicRecord.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\DDuce.RandomData.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\DDuce.Reflect.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\DDuce.ScopedReference.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Bindings.Collections.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Bindings.CollectionView.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Bindings.Notifications.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Collections.ObservableCollection.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Core.Collections.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Core.DataTemplates.Default.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Core.DataTemplates.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Core.DependencyProperty.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Core.Expressions.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Core.Framework.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Core.PropertyChangedBase.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Core.Reflection.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Core.Utils.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Windows.ColumnDefinitions.ControlTemplate.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Windows.ColumnDefinitions.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Windows.ControlTemplates.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Windows.CustomPresenter.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Windows.CustomPresenter.Types.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\DSharp\DSharp.Windows.TreeViewPresenter.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Components\DDuce.Components.DBGridView.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Components\DDuce.Components.Factories.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Components\DDuce.Components.GridView.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Components\DDuce.Components.Inspector.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Components\DDuce.Components.LogTree.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Components\DDuce.Components.PropertyInspector.CollectionEditor.pas">
-            <Form>frmCollectionEditor</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="..\..\libraries\dduce\Source\Components\DDuce.Components.PropertyInspector.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Components\DDuce.Components.PropertyInspector.StringsEditor.pas">
-            <Form>StringsEditorDialog</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="..\..\libraries\dduce\Source\Components\DDuce.Components.XMLTree.Editors.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Components\DDuce.Components.XMLTree.NodeAttributes.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Components\DDuce.Components.XMLTree.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\DDuce.WinIPC.Client.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Logger\DDuce.Logger.Channels.Base.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Logger\DDuce.Logger.Channels.LogFile.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Logger\DDuce.Logger.Channels.WinIPC.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Logger\DDuce.Logger.Channels.ZeroMQ.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Logger\DDuce.Logger.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Logger\DDuce.Logger.Interfaces.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Logger\DDuce.Logger.Factories.pas"/>
-        <DCCReference Include="LogViewer.Watches.Data.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\DDuce.WinIPC.Server.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Logger\DDuce.Logger.Base.pas"/>
-        <DCCReference Include="..\..\libraries\JsonDataObjects\Source\JsonDataObjects.pas"/>
-        <DCCReference Include="LogViewer.Settings.pas"/>
-        <DCCReference Include="LogViewer.MessageList.View.pas">
-            <Form>frmMessageList</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="LogViewer.CallStack.Data.pas"/>
-        <DCCReference Include="LogViewer.Receivers.WinIPC.pas"/>
-        <DCCReference Include="LogViewer.Receivers.ZeroMQ.pas"/>
-        <DCCReference Include="LogViewer.Interfaces.pas"/>
-        <DCCReference Include="LogViewer.Receivers.WinODS.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Filter.Data.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\Editor\DDuce.Editor.Filter.Settings.pas"/>
-        <DCCReference Include="uCustomImageDrawHook.pas"/>
-        <DCCReference Include="LogViewer.Resources.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Modules\ObjectInspector\DDuce.ObjectInspector.zObjectInspector.pas">
-            <Form>frmComponentInspectorzObjectInspector</Form>
-            <FormType>dfm</FormType>
+        <DCCReference Include="LogViewer.CallStack.Settings.pas"/>
+        <DCCReference Include="LogViewer.CallStack.View.pas">
+            <Form>frmCallStackView</Form>
         </DCCReference>
+        <DCCReference Include="LogViewer.Commands.pas"/>
+        <DCCReference Include="LogViewer.ComPort.Settings.pas"/>
+        <DCCReference Include="LogViewer.Dashboard.Data.pas"/>
+        <DCCReference Include="LogViewer.Dashboard.View.pas">
+            <Form>frmDashboard</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.DataSet.View.pas">
+            <Form>frmDataSetView</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.DisplayValues.Settings.pas"/>
+        <DCCReference Include="LogViewer.DisplayValues.Settings.View.pas">
+            <Form>frmDisplayValuesSettings</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.Events.pas"/>
+        <DCCReference Include="LogViewer.Factories.pas"/>
+        <DCCReference Include="LogViewer.Factories.Toolbars.pas"/>
+        <DCCReference Include="LogViewer.Image.View.pas">
+            <Form>frmImageView</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.Interfaces.pas"/>
         <DCCReference Include="LogViewer.MainForm.pas">
             <Form>frmMain</Form>
-            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="LogViewer.Manager.pas">
+            <Form>dmManager</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="LogViewer.MessageFilter.Data.pas"/>
+        <DCCReference Include="LogViewer.MessageFilter.View.pas">
+            <Form>frmMessageFilter</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.MessageList.LogNode.pas"/>
+        <DCCReference Include="LogViewer.MessageList.Settings.pas"/>
+        <DCCReference Include="LogViewer.MessageList.Settings.View.pas">
+            <Form>frmViewSettings</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.MessageList.View.pas">
+            <Form>frmMessageList</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.RawData.View.pas">
+            <Form>frmRawDataView</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.Receivers.Base.pas"/>
+        <DCCReference Include="LogViewer.Receivers.ComPort.pas"/>
+        <DCCReference Include="LogViewer.Receivers.ComPort.Settings.pas"/>
+        <DCCReference Include="LogViewer.Receivers.ComPort.Settings.View.pas">
+            <Form>frmComPortSettings</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.Receivers.FileSystem.pas"/>
+        <DCCReference Include="LogViewer.Receivers.FileSystem.Settings.pas"/>
+        <DCCReference Include="LogViewer.Receivers.Winipc.pas"/>
+        <DCCReference Include="LogViewer.Receivers.Winipc.Settings.pas"/>
+        <DCCReference Include="LogViewer.Receivers.Winipc.Settings.View.pas">
+            <Form>frmWinipcSettings</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.Receivers.Winods.pas"/>
+        <DCCReference Include="LogViewer.Receivers.Winods.Settings.pas"/>
+        <DCCReference Include="LogViewer.Receivers.Winods.Settings.View.pas">
+            <Form>frmWinodsSettings</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.Receivers.ZeroMQ.pas"/>
+        <DCCReference Include="LogViewer.Receivers.ZeroMQ.Settings.pas"/>
+        <DCCReference Include="LogViewer.Receivers.ZeroMQ.Settings.View.pas">
+            <Form>frmZeroMQSettings</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.Resources.pas"/>
+        <DCCReference Include="LogViewer.Settings.Dialog.Data.pas"/>
+        <DCCReference Include="LogViewer.Settings.Dialog.pas">
+            <Form>frmLogViewerSettings</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.Settings.pas"/>
+        <DCCReference Include="LogViewer.Subscribers.Base.pas"/>
+        <DCCReference Include="LogViewer.Subscribers.ComPort.pas"/>
+        <DCCReference Include="LogViewer.Subscribers.FileSystem.pas"/>
+        <DCCReference Include="LogViewer.Subscribers.Winipc.pas"/>
+        <DCCReference Include="LogViewer.Subscribers.Winods.pas"/>
+        <DCCReference Include="LogViewer.Subscribers.ZeroMQ.pas"/>
+        <DCCReference Include="LogViewer.ValueList.View.pas">
+            <Form>frmValueListView</Form>
+        </DCCReference>
+        <DCCReference Include="LogViewer.Watches.Data.pas"/>
+        <DCCReference Include="LogViewer.Watches.Settings.pas"/>
+        <DCCReference Include="LogViewer.Watches.Settings.View.pas">
+            <Form>frmWatchSettings</Form>
         </DCCReference>
         <DCCReference Include="LogViewer.Watches.View.pas">
             <Form>frmWatchesView</Form>
-            <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="LogViewer.CallStack.View.pas">
-            <Form>frmCallStackView</Form>
-            <FormType>dfm</FormType>
+        <DCCReference Include="LogViewer.MessageData.View.pas">
+            <Form>TfrmMessageData</Form>
         </DCCReference>
-        <DCCReference Include="LogViewer.Factories.pas"/>
-        <DCCReference Include="LogViewer.Manager.pas">
-            <Form>dmManager</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TDataModule</DesignClass>
+        <DCCReference Include="LogViewer.CallStack.Settings.View.pas">
+            <Form>frmCallStackSettings</Form>
         </DCCReference>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Spring.DesignPatterns.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Spring.Events.Base.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Spring.Events.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Spring.Helpers.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Spring.MethodIntercept.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Spring.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Spring.Reflection.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Spring.ResourceStrings.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Spring.SystemUtils.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Spring.Times.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Spring.ValueConverters.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Spring.VirtualClass.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Spring.VirtualInterface.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Collections\Spring.Collections.Adapters.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Collections\Spring.Collections.Base.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Collections\Spring.Collections.Dictionaries.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Collections\Spring.Collections.Enumerable.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Collections\Spring.Collections.Events.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Collections\Spring.Collections.Extensions.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Collections\Spring.Collections.LinkedLists.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Collections\Spring.Collections.Lists.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Collections\Spring.Collections.MultiMaps.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Collections\Spring.Collections.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Collections\Spring.Collections.Queues.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Collections\Spring.Collections.Sets.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Collections\Spring.Collections.Stacks.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Logging\Spring.Logging.Appenders.Base.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Logging\Spring.Logging.Appenders.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Logging\Spring.Logging.Controller.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Logging\Spring.Logging.Extensions.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Logging\Spring.Logging.Loggers.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Logging\Spring.Logging.NullLogger.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Logging\Spring.Logging.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Logging\Spring.Logging.ResourceStrings.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Logging\Spring.Logging.Serializers.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Patches\Spring.Patches.GetInvokeInfo.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Patches\Spring.Patches.QC93646.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Patches\Spring.Patches.QC98671.pas"/>
-        <DCCReference Include="..\..\libraries\spring4d\Source\Base\Patches\Spring.Patches.QC107219.pas"/>
-        <DCCReference Include="LogViewer.Settings.Dialog.pas">
-            <Form>frmLogViewerSettings</Form>
-            <FormType>dfm</FormType>
+        <DCCReference Include="LogViewer.DisplayValues.Settings.ValueManager.pas"/>
+        <DCCReference Include="LogViewer.LogLevels.Settings.pas"/>
+        <DCCReference Include="LogViewer.LogLevels.Settings.View.pas">
+            <Form>frmLogLevelSettings</Form>
         </DCCReference>
-        <DCCReference Include="LogViewer.Receivers.ComPort.pas"/>
-        <DCCReference Include="..\..\libraries\Delphi-ZeroMQ\ZeroMQ.API.pas"/>
-        <DCCReference Include="..\..\libraries\Delphi-ZeroMQ\ZeroMQ.pas"/>
-        <DCCReference Include="..\..\libraries\synapse\synaser.pas"/>
-        <DCCReference Include="..\..\libraries\synapse\synafpc.pas"/>
-        <DCCReference Include="..\..\libraries\synapse\synautil.pas"/>
-        <DCCReference Include="LogViewer.Factories.Toolbars.pas"/>
-        <DCCReference Include="LogViewer.MessageList.Settings.pas"/>
-        <DCCReference Include="LogViewer.Commands.pas"/>
-        <DCCReference Include="LogViewer.Events.pas"/>
-        <DCCReference Include="LogViewer.ComPort.Settings.pas"/>
-        <DCCReference Include="LogViewer.AddMessageView.Dialog.pas">
-            <Form>frmAddMessageView</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="LogViewer.ComPort.Settings.View.pas">
-            <Form>frmComPortSettings</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="LogViewer.WinODS.Settings.View.pas">
-            <Form>frmWinODSSettings</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="LogViewer.WinIPC.Settings.View.pas">
-            <Form>frmWinIPCSettings</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="LogViewer.ZeroMQ.Settings.View.pas">
-            <Form>frmZeroMQSettings</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="LogViewer.WinODS.Settings.pas"/>
-        <DCCReference Include="LogViewer.ZeroMQ.Settings.pas"/>
-        <DCCReference Include="LogViewer.WinIPC.Settings.pas"/>
-        <DCCReference Include="LogViewer.Settings.Dialog.ConfigNode.pas"/>
-        <DCCReference Include="LogViewer.Watches.Settings.pas"/>
-        <DCCReference Include="LogViewer.CallStack.Settings.pas"/>
-        <DCCReference Include="LogViewer.Watches.Settings.View.pas">
-            <Form>frmWatchSettings</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="LogViewer.MessageList.LogNode.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\NativeXml\NativeXml.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\NativeXml\NativeXmlCodepages.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\NativeXml\NativeXmlNodes.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\NativeXml\NativeXmlObjectStorage.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\NativeXml\sdDebug.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\NativeXml\sdStreams.pas"/>
-        <DCCReference Include="..\..\libraries\dduce\Source\Dependencies\NativeXml\sdStringTable.pas"/>
+        <DCCReference Include="LogViewer.WinipcBroker.pas"/>
+        <None Include="Readme.md"/>
+        <RcItem Include="Bin\Win32\libzmq.dll">
+            <ContainerId>ResourceItem</ContainerId>
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>libzmq</ResourceId>
+        </RcItem>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -426,29 +254,53 @@
                     <Source Name="MainSource">LogViewer.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\17.0\Bpl\dclDataBindings230.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\17.0\Bpl\dclDataBindings230.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\17.0\Bpl\dclDataBindingsVCL230.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\17.0\Bpl\dclDataBindingsVCL230.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\17.0\Bpl\dclTreeViewPresenter230.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\17.0\Bpl\dclTreeViewPresenter230.bpl not found</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k230.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp230.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k230.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp230.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k250.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp250.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k250.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp250.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Platforms>
-                <Platform value="iOSDevice64">False</Platform>
                 <Platform value="Win32">True</Platform>
-                <Platform value="Win64">True</Platform>
+                <Platform value="Win64">False</Platform>
             </Platforms>
             <Deployment Version="3">
-                <DeployFile LocalName="Library\Win64\Debug\LogViewer.exe" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName="Library\Win32\Debug\LogViewer.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="Library\Win32\Release\LogViewer.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>LogViewer.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Library\Win32\Debug\LogViewer.exe" Configuration="Debug" Class="ProjectOutput"/>
+                <DeployFile LocalName="Readme.md" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Bin\Win32\LogViewer.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>LogViewer.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Bin\Win32\libzmq.dll" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Readme.md" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Bin\Win32\LogViewer.rsm" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>LogViewer.rsm</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
                         <Operation>1</Operation>
@@ -468,6 +320,16 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="AndroidFileProvider">
+                    <Platform Name="Android">
+                        <RemoteDir>res\xml</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\xml</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="AndroidGDBServer">
                     <Platform Name="Android">
                         <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
@@ -477,6 +339,12 @@
                 <DeployClass Name="AndroidLibnativeArmeabiFile">
                     <Platform Name="Android">
                         <RemoteDir>library\lib\armeabi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidLibnativeArmeabiv7aFile">
+                    <Platform Name="Android64">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -492,6 +360,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="AndroidServiceOutput_Android32">
+                    <Platform Name="Android64">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="AndroidSplashImageDef">
                     <Platform Name="Android">
                         <RemoteDir>res\drawable</RemoteDir>
@@ -500,6 +374,26 @@
                 </DeployClass>
                 <DeployClass Name="AndroidSplashStyles">
                     <Platform Name="Android">
+                        <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashStylesV21">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values-v21</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\values-v21</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_Colors">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
                         <RemoteDir>res\values</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -540,6 +434,56 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="Android_NotificationIcon24">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-mdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-mdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_NotificationIcon36">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-hdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-hdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_NotificationIcon48">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-xhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_NotificationIcon72">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xxhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-xxhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_NotificationIcon96">
+                    <Platform Name="Android">
+                        <RemoteDir>res\drawable-xxxhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\drawable-xxxhdpi</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="Android_SplashImage426">
                     <Platform Name="Android">
                         <RemoteDir>res\drawable-small</RemoteDir>
@@ -561,6 +505,16 @@
                 <DeployClass Name="Android_SplashImage960">
                     <Platform Name="Android">
                         <RemoteDir>res\drawable-xlarge</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="Android_Strings">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="Android64">
+                        <RemoteDir>res\values</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -664,7 +618,51 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="iPad_Launch1024x768">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="iPad_Launch1536">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1536x2048">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1668">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch1668x2388">
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
@@ -686,7 +684,172 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="iPad_Launch2048x1536">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch2048x2732">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch2224">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch2388x1668">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch2732x2048">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="iPad_Launch768">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_Launch768x1024">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch1125">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch1136x640">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch1242">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch1242x2688">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch1334">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch1792">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch2208">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch2436">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch2688x1242">
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
@@ -720,6 +883,28 @@
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="iPhone_Launch640x1136">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch750">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch828">
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
@@ -785,6 +970,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="ProjectOSXDebug">
+                    <Platform Name="OSX64">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="ProjectOSXEntitlements">
                     <Platform Name="OSX32">
                         <RemoteDir>..\</RemoteDir>
@@ -828,6 +1019,12 @@
                         <Operation>0</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="ProjectOutput_Android32">
+                    <Platform Name="Android64">
+                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="ProjectUWPManifest">
                     <Platform Name="Win32">
                         <Operation>1</Operation>
@@ -859,11 +1056,13 @@
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Android64" Name="$(PROJECTNAME)"/>
             </Deployment>
             <ModelSupport>False</ModelSupport>
         </BorlandProject>

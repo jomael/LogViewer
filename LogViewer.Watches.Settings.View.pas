@@ -1,5 +1,5 @@
 {
-  Copyright (C) 2013-2017 Tim Sinaeve tim.sinaeve@gmail.com
+  Copyright (C) 2013-2020 Tim Sinaeve tim.sinaeve@gmail.com
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -27,12 +27,20 @@ uses
 
 type
   TfrmWatchSettings = class(TForm)
-    chkOnlyTrackChanges: TCheckBox;
+    chkOnlyTrackChanges        : TCheckBox;
+    chkSyncWithSelectedMessage : TCheckBox;
+    chkShowWatchHistory        : TCheckBox;
+    chkHideColumnHeaders       : TCheckBox;
+
+    {$REGION 'event handlers'}
     procedure chkOnlyTrackChangesClick(Sender: TObject);
+    procedure chkShowWatchHistoryClick(Sender: TObject);
+    procedure chkSyncWithSelectedMessageClick(Sender: TObject);
+    procedure chkHideColumnHeadersClick(Sender: TObject);
+    {$ENDREGION}
+
   private
     FSettings : TWatchSettings;
-  protected
-    procedure UpdateActions; override;
 
   public
     constructor Create(
@@ -40,7 +48,7 @@ type
       ASettings : TWatchSettings
     ); reintroduce;
 
-    procedure BeforeDestruction; override;
+    destructor Destroy; override;
   end;
 
 implementation
@@ -53,25 +61,38 @@ constructor TfrmWatchSettings.Create(AOwner: TComponent;
 begin
   inherited Create(AOwner);
   FSettings := ASettings;
+  chkOnlyTrackChanges.Checked        := FSettings.OnlyTrackChanges;
+  chkSyncWithSelectedMessage.Checked := FSettings.SyncWithSelection;
+  chkShowWatchHistory.Checked        := FSettings.WatchHistoryVisible;
+  chkHideColumnHeaders.Checked       := not FSettings.ColumnHeadersVisible;
 end;
 
-procedure TfrmWatchSettings.UpdateActions;
-begin
-  inherited UpdateActions;
-  chkOnlyTrackChanges.Checked := FSettings.OnlyTrackChanges;
-end;
-
-procedure TfrmWatchSettings.BeforeDestruction;
+destructor TfrmWatchSettings.Destroy;
 begin
   FSettings := nil;
-  inherited BeforeDestruction;
+  inherited Destroy;
 end;
 {$ENDREGION}
 
 {$REGION 'event handlers'}
+procedure TfrmWatchSettings.chkHideColumnHeadersClick(Sender: TObject);
+begin
+  FSettings.ColumnHeadersVisible := not (Sender as TCheckBox).Checked;
+end;
+
 procedure TfrmWatchSettings.chkOnlyTrackChangesClick(Sender: TObject);
 begin
-  FSettings.OnlyTrackChanges := chkOnlyTrackChanges.Checked;
+  FSettings.OnlyTrackChanges := (Sender as TCheckBox).Checked;
+end;
+
+procedure TfrmWatchSettings.chkShowWatchHistoryClick(Sender: TObject);
+begin
+  FSettings.WatchHistoryVisible := (Sender as TCheckBox).Checked;
+end;
+
+procedure TfrmWatchSettings.chkSyncWithSelectedMessageClick(Sender: TObject);
+begin
+  FSettings.SyncWithSelection := (Sender as TCheckBox).Checked;
 end;
 {$ENDREGION}
 

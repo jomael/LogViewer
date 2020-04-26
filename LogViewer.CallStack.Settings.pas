@@ -1,5 +1,5 @@
 {
-  Copyright (C) 2013-2016 Tim Sinaeve tim.sinaeve@gmail.com
+  Copyright (C) 2013-2020 Tim Sinaeve tim.sinaeve@gmail.com
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 
 unit LogViewer.CallStack.Settings;
 
+{ Persistable settings for callstack display. }
+
 interface
 
 uses
@@ -26,33 +28,46 @@ uses
 type
   TCallStackSettings = class(TPersistent)
   private
-    FOnChanged : Event<TNotifyEvent>;
+    FOnChanged            : Event<TNotifyEvent>;
+    FColumnHeadersVisible : Boolean;
 
   protected
+    {$REGION 'property access methods'}
+    function GetColumnHeadersVisible: Boolean;
+    procedure SetColumnHeadersVisible(const Value: Boolean);
     function GetOnChanged: IEvent<TNotifyEvent>;
+    {$ENDREGION}
 
     procedure Changed;
 
   public
-    procedure AfterConstruction; override;
-
     procedure Assign(Source: TPersistent); override;
 
     property OnChanged: IEvent<TNotifyEvent>
       read GetOnChanged;
+
+  published
+    property ColumnHeadersVisible: Boolean
+      read GetColumnHeadersVisible write SetColumnHeadersVisible;
   end;
 
 implementation
 
-{$REGION 'construction and destruction'}
-procedure TCallStackSettings.AfterConstruction;
-begin
-  inherited;
-
-end;
-{$ENDREGION}
-
 {$REGION 'property access methods'}
+function TCallStackSettings.GetColumnHeadersVisible: Boolean;
+begin
+  Result := FColumnHeadersVisible;
+end;
+
+procedure TCallStackSettings.SetColumnHeadersVisible(const Value: Boolean);
+begin
+  if Value <> ColumnHeadersVisible then
+  begin
+    FColumnHeadersVisible := Value;
+    Changed;
+  end;
+end;
+
 function TCallStackSettings.GetOnChanged: IEvent<TNotifyEvent>;
 begin
   Result := FOnChanged;
@@ -74,15 +89,11 @@ begin
   if Source is TCallStackSettings then
   begin
     LSettings := TCallStackSettings(Source);
-
+    ColumnHeadersVisible := LSettings.ColumnHeadersVisible;
   end
   else
     inherited Assign(Source);
 end;
-
 {$ENDREGION}
-
-
-
 
 end.
